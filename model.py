@@ -62,7 +62,7 @@ class Dblock(nn.Module):
         self.dilate3 = nn.Conv2d(channel, channel, kernel_size=3, dilation=4, padding=4)
         self.dilate4 = nn.Conv2d(channel, channel, kernel_size=3, dilation=8, padding=8)
 
-        self.spm = SPBlock(channel, channel, norm_layer=nn.BatchNorm2d)
+        # self.spm = SPBlock(channel, channel, norm_layer=nn.BatchNorm2d)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d) or isinstance(m, nn.ConvTranspose2d):
