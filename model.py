@@ -73,9 +73,9 @@ class Dblock(nn.Module):
         dilate2_out = self.dilate2(dilate1_out)
         dilate3_out = self.dilate3(dilate2_out)
         dilate4_out = self.dilate4(dilate3_out)
-        spm_out = self.spm(x)
-        out = (x + dilate1_out + dilate2_out + dilate3_out + dilate4_out) * spm_out
-        #         out = x + dilate1_out + dilate2_out + dilate3_out + dilate4_out
+        #spm_out = self.spm(x)
+        #out = (x + dilate1_out + dilate2_out + dilate3_out + dilate4_out) * spm_out
+        out = x + dilate1_out + dilate2_out + dilate3_out + dilate4_out
         return out
 
 
