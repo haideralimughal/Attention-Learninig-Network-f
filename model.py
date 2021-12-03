@@ -1,10 +1,9 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-# from torchvision.models import resnet
+from torchvision.models import resnet
 import torch.nn.functional as F
-# from .scse_original import SCSEBlock
-#from .resnet import resnet34, SPBlock
+
 from .eca_module import ECABlock
 
 class BasicBlock(nn.Module):
@@ -132,8 +131,7 @@ class MSALNet(nn.Module):
         """
         super(MSALNet, self).__init__()
 
-        # base = resnet.resnet18(pretrained=True)
-        base = resnet34()
+        base = resnet.resnet34(pretrained=True)
 
         self.in_block = nn.Sequential(
             base.conv1,
