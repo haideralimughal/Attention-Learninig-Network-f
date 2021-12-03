@@ -102,40 +102,6 @@ class Decoder(nn.Module):
 
         return x
 
-# class Multiscale_Attention(nn.Module):
-#     '''
-#     单特征 进行通道加权,作用类似SE模块
-#     '''
-#
-#     def __init__(self, in_channels, out_channels):
-#         super(Multiscale_Attention, self).__init__()
-#
-#         self.local_att = nn.Sequential(
-#             nn.Conv2d(out_channels, in_channels, kernel_size=1, stride=1, padding=0),
-#             nn.BatchNorm2d(in_channels),
-#             nn.ReLU(inplace=True),
-#             nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=1, padding=0),
-#             nn.BatchNorm2d(out_channels),
-#         )
-#
-#         self.global_att = nn.Sequential(
-#             nn.AdaptiveAvgPool2d(1),
-#             nn.Conv2d(out_channels, in_channels, kernel_size=1, stride=1, padding=0),
-#             nn.BatchNorm2d(in_channels),
-#             nn.ReLU(inplace=True),
-#             nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=1, padding=0),
-#             nn.BatchNorm2d(out_channels),
-#         )
-#
-#         self.sigmoid = nn.Sigmoid()
-#         # self.SCSEBlockMS = SCSEBlock(128)
-#
-#     def forward(self, x):
-#         xl = self.local_att(x)
-#         xg = self.global_att(x)
-#         xlg = xl + xg
-#         wei = self.sigmoid(xlg)
-#         return x * wei
 
 class BR(nn.Module):
     def __init__(self, out_c):
@@ -196,16 +162,6 @@ class MSALNet(nn.Module):
                                 nn.BatchNorm2d(32),
                                 nn.ReLU(inplace=True),)
         self.tp_conv2 = nn.ConvTranspose2d(32, num_classes, 2, 2, 0)
-        # self.lsm = nn.LogSoftmax(dim=1)
-        # self.SCSEBlock4 = SCSEBlock(256)
-        # self.SCSEBlock3 = SCSEBlock(128)
-        # self.SCSEBlock2 = SCSEBlock(64)
-        # self.SCSEBlock1 = SCSEBlock(64)
-
-        # self.MS_CAM4 = Multiscale_Attention(512, 256)
-        # self.MS_CAM3 = Multiscale_Attention(256, 128)
-        # self.MS_CAM2 = Multiscale_Attention(128, 64)
-        # self.MS_CAM1 = Multiscale_Attention(64, 64)
 
         self.ECABlock4 = ECABlock(512)
         self.ECABlock3 = ECABlock(256)
@@ -240,37 +196,6 @@ class MSALNet(nn.Module):
         d1 = self.decoder1(d2) + x
         d1 = self.ECABlock1(d1)
 
-        # Multiscale Channel Attention Block with Decoder
-
-        # d4 = self.decoder4(e4) + e3
-        # d4 = self.MS_CAM4(d4)
-        # d3 = self.decoder3(d4) + e2
-        # d3 = self.MS_CAM3(d3)
-        # d2 = e1 + F.upsample(self.decoder2(d3), (e1.size(2), e1.size(3)), mode='bilinear')
-        # #d2 = self.decoder2(d3) + e1
-        # d2 = self.MS_CAM2(d2)
-        # d1 = self.decoder1(d2) + x
-        # d1 = self.MS_CAM1(d1)
-
-        # Sequeeze Excitation Block with Decoder
-
-        # d4 = self.decoder4(e4) + e3
-        # d4 = self.SCSEBlock4(d4)
-        # d3 = self.decoder3(d4) + e2
-        # d3 = self.SCSEBlock3(d3)
-        # d2 = e1 + F.upsample(self.decoder2(d3), (e1.size(2), e1.size(3)), mode='bilinear')
-        # #d2 = self.decoder2(d3) + e1
-        # d2 = self.SCSEBlock2(d2)
-        # d1 = self.decoder1(d2) + x
-        # d1 = self.SCSEBlock1(d1)
-
-
-
-        #d4 = e3 + self.decoder4(e4)
-        # d4 = e3 + self.decoder4(e4)
-        # d3 = e2 + self.decoder3(d4)
-        # d2 = e1 + self.decoder2(d3)
-        # d1 = x + self.decoder1(d2)
 
         # Classifier
         y = self.tp_conv1(d1)
