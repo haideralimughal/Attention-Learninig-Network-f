@@ -4,7 +4,7 @@ from torch.autograd import Variable
 # from torchvision.models import resnet
 import torch.nn.functional as F
 # from .scse_original import SCSEBlock
-from .resnet import resnet34, SPBlock
+#from .resnet import resnet34, SPBlock
 from .eca_module import ECABlock
 
 class BasicBlock(nn.Module):
